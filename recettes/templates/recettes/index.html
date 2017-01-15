@@ -1,0 +1,71 @@
+<html>
+	<head>
+		<meta charset="utf-8">
+    	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Planete Levain : recettes</title>
+		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+		
+	</head>
+	<body>
+		<div class="container">
+			<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+	    	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	    	<!-- Include all compiled plugins (below), or include individual files as needed -->
+	    	<!--<script src="js/bootstrap.min.js"></script>-->
+
+			<div class="page-header">
+				<h1>Liste des recettes</h1>
+			</div>
+		{% if recipes_list %}	
+			<div>
+				<p> <form action="{% url 'recettes:index' %}" method="POST">
+					{% csrf_token %}
+					{{ form.non_field_errors }}
+					<p class="lead"> Choisis une recette: {{ select_recipe_form.recipe }}</p>
+				</p>
+			</div>
+			{% if select_recipe_form.is_valid %}
+			<div>
+				<p class="lead"><b>Description:</b> {{ selected_recipe.description }}</p>
+			</div>
+			<br>
+			<div class="well">
+				<p><form action="{% url 'recettes:index' %}" method="POST">
+				{% csrf_token %}
+				{{ form.non_field_errors }}
+				{{ batch_composition_form.bread_qty.label_tag }} {{  batch_composition_form.bread_qty }}
+				{{ batch_composition_form.bread_weight.label_tag }} {{  batch_composition_form.bread_weight }}
+				<input type="submit" value="Calculer" class="btn btn-primary"/>
+				</form></p>
+			</div>
+			<div>
+			<h3>Composition</h3>
+				<table class="table">
+				<tr>
+					<th>Ingrédient</th>
+					<th>Quantité</th>
+					<th>Prix au kg</th>
+				</tr>
+				{% for item in ingredient_list_with_total %}
+				<tr>
+					<td>{{ item.name }}</td>
+					<td>{{ bread_qty}} x {{ bread_weight }} x {{ item.weight }} = <b>{{ item.total }}g</b> </td>
+					<td><i>{{ item.price_per_kg }} €/kg</i></td>
+				</tr>
+				{% endfor %}
+				<tr>{{ a }}</tr>
+				</table>
+			</div>
+			<br>
+			<div>
+			<p>Prix de revient:</p>
+			</div>
+			{% endif %}
+		{% else %}
+			<p>Pas de recettes</p>
+		{% endif %}
+		</div>
+	</body>
+</html>
