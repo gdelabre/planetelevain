@@ -21,6 +21,6 @@ class IngredientsList(models.Model):
 	weight_for_100g = models.IntegerField()
 
 	def __str__(self):
-		return "{0}: {2}g de {1}".format(self.recipe, self.ingredient, self.weight_in_g)
+		return "{0}: {2}g de {1}".format(self.recipe, self.ingredient, self.weight_for_100g)
 
 
