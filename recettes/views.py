@@ -1,6 +1,9 @@
 from django.shortcuts import render, get_object_or_404
 from .models import Recipe, IngredientsList
-from .forms import SelectRecipeForm, BatchCompositionForm
+#nécessaire pour faire fonctionner makemigrations quand la base est vide
+import sys
+if 'makemigrations' not in sys.argv and 'migrate' not in sys.argv:
+	from .forms import SelectRecipeForm, BatchCompositionForm
 
 
 def index (request, recipe_id=''):
